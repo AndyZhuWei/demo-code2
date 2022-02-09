@@ -35,6 +35,7 @@ git reset --hard [last good SHA]
 
 a
 
+b
 
 
 # 将暂存区的文件撤销
