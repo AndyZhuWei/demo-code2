@@ -33,7 +33,7 @@ git reset --hard [last good SHA]
 ## git reflog
 可以查看所有分支的所有操作记录（包括已经被删除的 commit 记录和 reset 的操作）
 
-
+aaaa test 
 
 
 
