@@ -33,10 +33,7 @@ git reset --hard [last good SHA]
 ## git reflog
 可以查看所有分支的所有操作记录（包括已经被删除的 commit 记录和 reset 的操作）
 
-a
-
-b
-
+aa
 
 # 将暂存区的文件撤销
 如果我们git add <File>了一个文件后，此文件将进入暂存区，如果想要把它从暂存区撤出可以执行如下命令
