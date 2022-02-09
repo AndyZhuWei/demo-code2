@@ -23,8 +23,12 @@ git reset [last good SHA]
 ```text
 git reset --hard [last good SHA]
 ```
-执行 git reset 命令之后，如果想找回那些丢弃掉的提交，可以使用 git reflog 命令，具体做法参考这里。不过，这种做法有时效性，时间长了可能找不回来。
+执行 **git reset** 命令之后，如果想找回那些丢弃掉的提交，可以使用 git reflog 命令，具体做法参考这里。不过，这种做法有时效性，时间长了可能找不回来。
 
+
+#替换上一次的提交
+
+amend
 
 
 # git log 与 git reflog命令
@@ -33,7 +37,9 @@ git reset --hard [last good SHA]
 ## git reflog
 可以查看所有分支的所有操作记录（包括已经被删除的 commit 记录和 reset 的操作）
 
-aa
+
+
+
 
 # 将暂存区的文件撤销
 如果我们git add <File>了一个文件后，此文件将进入暂存区，如果想要把它从暂存区撤出可以执行如下命令
