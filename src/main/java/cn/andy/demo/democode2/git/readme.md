@@ -50,6 +50,31 @@ git checkout -- [filename]
 注意，工作区的文件变化一旦被撤销，就无法找回了。
 ```
 
+# 从暂存区撤销文件
+如果不小心把一个文件添加到暂存区，可以用下面的命令撤销
+```text
+git rm --cached [filename]
+```
+上面的命令不影响已经提交的内容。
+
+# 撤销当前分支的变化
+
+```text
+# 新建一个 feature 分支，指向当前最新的提交
+# 注意，这时依然停留在当前分支
+$ git branch feature
+
+# 切换到这几次提交之前的状态
+$ git reset --hard [当前分支此前的最后一次提交]
+
+# 切换到 feature 分支
+$ git checkout feature
+
+```
+
+上面的操作等于是撤销当前分支的变化，将这些变化放到一个新建的分支。
+
+
 
 # git log 与 git reflog命令
 ## git log
