@@ -54,7 +54,7 @@ server docker daemon 服务端docker服务守护进程<------>rest api（通信�
 * 容器:是镜像的实例，由Docker负责创建，容器之间彼此隔离
 
 ##Docker的执行流程
-![Docker的执行流程](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\Docker执行流程.png)
+![Docker的执行流程](images\Docker执行流程.png)
 
 最小化安装时缺少ifconfig 和route命令，此时执行如下命令安装
 yum install net-tools
@@ -106,7 +106,7 @@ docker rmi -f 镜像名<:tags>
 
 # 容器内部结构
 tomcat容器内部结构
-![tomcat容器内部结构](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\tomcat容器内部结构.png)
+![tomcat容器内部结构](images\tomcat容器内部结构.png)
 
 ## 在容器内部执行命令
 * 格式 docker exec [-it] 容器id 命令
@@ -128,7 +128,7 @@ exit就退出了当前容器
 
 
 # 容器生命周期
-![容器生命周期](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\容器生命周期.png)
+![容器生命周期](images\容器生命周期.png)
 
 ## 创建容器
 ```shell
@@ -190,10 +190,10 @@ CONTAINER ID   IMAGE                        COMMAND             CREATED        S
 删除后容器列表中就不存在了
 
 #Dockerfile构建镜像
-![Dockerfile构建镜像](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\dockerfile构建镜像.jpg)
+![Dockerfile构建镜像](images\dockerfile构建镜像.jpg)
 
 ## Dockerfile自动部署tomcat应用
-![Dockerfile自动部署tomcat应用](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\Dockerfile自动部署tomcat应用.jpg)
+![Dockerfile自动部署tomcat应用](images\Dockerfile自动部署tomcat应用.jpg)
 
 ##演示
 * 创建目录first-dockerfile/docker-web
@@ -226,10 +226,10 @@ docker run -d -p 8001:8080 xxx.com/mywebapp:1.0
 http://xxx:8001/docker-web/index.html
   
 # 镜像分层（layer）概念
-![镜像分层（layer）概念](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\镜像分层(layer)概念.jpg)
+![镜像分层（layer）概念](images\镜像分层(layer)概念.jpg)
 
 ## mywebapp执行过程
-![mywebapp执行过程](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\mywebapp执行过程.jpg)
+![mywebapp执行过程](images\mywebapp执行过程.jpg)
 分成四步执行，
 第一步是拉取tomcat的镜像并且用这个镜像创建一个临时容器，这个容器只能用于构建镜像，
    那串数字就是临时容器的id
@@ -293,17 +293,17 @@ docker build -t xxx.com/docker_layer:1.1 .
 * ENTRYPOINT: 在容器启动时执行命令
 * CMD:容器启动后执行默认的命令或参数
 本质区别是执行时机不同
-![执行时机不同](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\执行时机不同.jpg)  
+![执行时机不同](images\执行时机不同.jpg)  
 
 RUN-构建运行
 * RUN yum install -y vim #Shell命令格式
 * RUN ["yum","install","-y","vim"] #Exec命令
 
 Shell运行方式
-![Shell运行方式](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\Shell运行方式.jpg)
+![Shell运行方式](images\Shell运行方式.jpg)
 
 Exec运行方式
-![Exec运行方式](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\Exec运行方式.jpg)
+![Exec运行方式](images\Exec运行方式.jpg)
 
 ENTRYPOINT启动命令
 * ENTRYPOINT(入口点)用于在容器启动时执行命令
@@ -370,7 +370,7 @@ CMD代表的是一个默认指令，这里的默认指令不一定是一个完�
 
 Redis简介
 
-![Redis简介](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\Redis简介.jpg)
+![Redis简介](images\Redis简介.jpg)
 
 1.在images中创建docker-redis目录，将redis-4.0.14.tar.gz和配置文件redis-7000.conf上传进去
 
@@ -406,10 +406,10 @@ docker exec -it xxx /bin/bash
 
 
 # 容器间Link单向通信
-![容器间Link单向通信](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\容器间Link单向通信.jpg)
+![容器间Link单向通信](images\容器间Link单向通信.jpg)
 创建容器后内部会有一个虚拟ip，外界无法访问，仅仅是容器内部沟通的标识
 但通过虚拟ip通信局限性很大，因为随便创建一个容器ip就会改变
-![容器ip改变后](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\容器ip改变后.jpg)
+![容器ip改变后](images\容器ip改变后.jpg)
 这样就导致原本写好的虚拟ip地址需要随时改变，那有什么好的办法嘛？
 其实我们可以给每个容器起一个名称，用名称连接即可。
 
@@ -475,7 +475,7 @@ rtt min/avg/max/mdev = 0.162/0.217/0.273/0.057 ms
 
 # Bridge网桥双向通信
 基于上述我们创建双向的link可以解决双向通信，但是比较麻烦，所以Docker给我们提供了Bridge网桥的方式
-![Bridge网桥双向通信](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\Bridge网桥双向通信.jpg)
+![Bridge网桥双向通信](images\Bridge网桥双向通信.jpg)
 此处的网桥充当了Docker环境与外边宿主机的通讯源
 网桥还有一个用户就是在网络层面对容器进行分组
 
@@ -562,15 +562,15 @@ rtt min/avg/max/mdev = 0.059/0.198/0.293/0.085 ms
 作为双向互连其中最核心的点就是通过创建一个新的网桥，将已有的容器与网桥进行绑定，那么默认所有与网桥绑定的容器都是互联互通的
 
 ## 网桥实现原理
-![网桥实现原理](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\网桥实现原理.jpg)
+![网桥实现原理](images\网桥实现原理.jpg)
 在创建网桥后，都会在宿主机上按照一个虚拟网卡，这个虚拟网卡也承担了一个网关的作用。
 虚拟网卡ip都是虚拟的，如果和外界通信需要和物理网卡进行地址转换
 
 # Volume容器间共享数据
 为什么需要数据共享？
-![为什么需要数据共享](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\数据共享.jpg)
+![为什么需要数据共享](images\数据共享.jpg)
 如果所示，两个tomcat容器中是有相同的web页面，如果要更新某个web页面时，需要更新这两个容器，如果容器比较多，那么更新就比较麻烦，为此提出了数据共享的方案
-![数据共享方案](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\数据共享2.pg.jpg)
+![数据共享方案](images\数据共享2.pg.jpg)
 
 ## 通过设置—v挂载宿主机目录
 * 格式：
@@ -644,9 +644,9 @@ docke run -p 8003:8080 --volumes-from webpage --name t4 -d tomcat:
 
 # Docker Compose
 容器编排工具
-![容器编排工具](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\容器编排工具.jpg)
+![容器编排工具](images\容器编排工具.jpg)
 哪么什么是容器编排工具呢?我们看一个场景
-![多容器部署的麻烦事](D:\IT\demo-code2\src\main\java\cn\andy\demo\democode2\docker\多容器部署的麻烦事.jpg)
+![多容器部署的麻烦事](images\多容器部署的麻烦事.jpg)
 图中的方框中是一台宿主机，如果按照原始容器来做，我们需要部署三个容器，分别是nginx、tomcat以及mysql。
 nginx对tomcat提供负载均衡以及反向代理服务，tomcat里面按照java web服务，而服务里面需要访问底层的mysql数据，这些都是需要互联互通.
 同时每个容器都有属于自己独立的配置文件，如果现在有一个应用要上线，难道要给运维提供一推命令和文件嘛，显然这些不现实的
