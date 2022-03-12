@@ -76,6 +76,7 @@ PATH的配置，借助GROOVY_HOME：
 数据类型 变量名 = 初始值
 
 ![img.png](images/img09.png)
+
 *(2)* 弱类型定义方式
 
 根据值可以推断出变量的数据类型，所以类型不用显示声明，直接用def即可
@@ -175,12 +176,15 @@ def 变量名 = 初始值
 有默认的参数：
 
 所有的闭包都有一个默认参数，不需要你显示声明，用it接收
+
 ![img_5.png](images/img31.png)
 
 如果你不想叫it,那么就需要自己手动显示将参数定义即可，一旦定义那么就没有默认参数了（隐式参数）
 
 闭包返回值：
+
 闭包一定有返回值，如果不写就相当于返回null
+
 ![img_6.png](images/img32.png)
 
 可以定义返回值：
@@ -410,115 +414,481 @@ ${name}取值是从delegate中取值，所以delegate默认情况下指代的是
 
 创建接口：
 
-![img.png](img.png)
+![img.png](images/img90.png)
 
 PS:在groovy中不可以定义非public类型的方法
 
 类中实现接口：
 
-![img_2.png](img_2.png)
+![img_2.png](images/img92.png)
 
 ### 3.9.4 Trait
 用的少，知道即可。
 
 定义：
 
-![img_3.png](img_3.png)
+![img_3.png](images/img93.png)
 
 在Trait中定义抽象方法和非抽象方法，定义以后就可以让类来使用（使用和接口很像，用implements来实现）：
 
-![img_4.png](img_4.png)
+![img_4.png](images/img94.png)
 
 在脚本中定义具体的对象调用方法：
 
-![img_5.png](img_5.png)
+![img_5.png](images/img95.png)
 
 运行结果：
 
-![img_6.png](img_6.png)
+![img_6.png](images/img96.png)
 
 一个类可以实现多个Trait(解决了多继承问题)
 
-![img_7.png](img_7.png)
+![img_7.png](images/img97.png)
 
-![img_8.png](img_8.png)
+![img_8.png](images/img98.png)
 
-![img_9.png](img_9.png)
+![img_9.png](images/img99.png)
 
 结果：
 
-![img_10.png](img_10.png)
+![img_10.png](images/img100.png)
 
 PS:Trait就像是抽象类和接口的结合，类实现用implements关键字来实现，可以实现多个Traint.
 
 ### 3.9.5元编程——方法的调用和拦截
 使用运行时元编程，我们可以在运行时截取类和接口的方法。
 
-![img_11.png](img_11.png)
+![img_11.png](images/img101.png)
 
-![img_12.png](img_12.png)
+![img_12.png](images/img102.png)
 
 在脚本中创建对象，然后调用方法：
 
-![img_13.png](img_13.png)
+![img_13.png](images/img103.png)
 
 发现:调用已有的eat方法，直接调用没有问题，但是调用没有的方法play会直接出错：
 
-![img_14.png](img_14.png)
+![img_14.png](images/img104.png)
 
 但是在groovy中可以用重写方法的形式来替换不存在的方法：
 
-![img_15.png](img_15.png)
+![img_15.png](images/img105.png)
 
-![img_16.png](img_16.png)
+![img_16.png](images/img106.png)
 
 结果：
 
-![img_17.png](img_17.png)
+![img_17.png](images/img107.png)
 
 如果重写了methodMissing方法，会调用methodMissing方法：
 
-![img_19.png](img_19.png)
+![img_19.png](images/img109.png)
 
 结果：
 
-![img_20.png](img_20.png)
+![img_20.png](images/img110.png)
 
 
 ### 3.9.6 元编程——metaClass
 
 使用运行时元编程，我们可以在运行注入，合成类和接口的方法。
 
-![img_21.png](img_21.png)
+![img_21.png](images/img111.png)
 
 ## 3.10 Groovy对Json的操作
 
 ### 3.10.1Groovy自带的工具类处理json方式
 将对象转为json：
 
-![img_22.png](img_22.png)
+![img_22.png](images/img112.png)
 
-![img_24.png](img_24.png)
+![img_24.png](images/img114.png)
 
 
 将json串转为对象：
 
-![img_23.png](img_23.png)
+![img_23.png](images/img113.png)
 
 
 
 ### 3.10.2使用java第三方类库处理json
 将第三方类库导入程序中：
 
-![img_25.png](img_25.png)
+![img_25.png](images/img115.png)
 
 类：
 
-![img_27.png](img_27.png)
+![img_27.png](images/img117.png)
 
 脚本中转换：
 
-![img_26.png](img_26.png)
+![img_26.png](images/img116.png)
+
+
+## 3.11 Groovy对xml的操作
+### 3.11.1 对xml进行解析
+
+![img_28.png](images/img118.png)
+
+![img_29.png](images/img119.png)
+
+xml的遍历
+
+![img_30.png](images/img120.png)
+
+### 3.11.2 生成xml
+![img_32.png](images/img122.png)
+
+## 3.12 Groovy对文件的操作
+![img_33.png](images/img123.png)
+
+![img_34.png](images/img124.png)
+
+**将对象写入文件中**
+
+![img_35.png](images/img125.png)
+
+**从文件中将对象读取出来**
+
+![img_36.png](images/img126.png)
+
+# 四 Gradle的学习
+## 4.1 Gradle的优势
+
+* 一款最新的、功能最强大的构建工具，用它逼格更高
+* 使用Groovy或Kotlin代替XML,使用程序代替传统的XML配置，项目构建更灵活
+* 丰富的第三方插件，让你随心所欲使用
+* 完善Android，Java并发技术体系
+
+## 4.2 Gradle的下载和安装
+
+下载位置：https://services.gradle.org/distributions/
+
+## 4.3 配置环境变量
+配置GRADLE_HOME:
+
+配置Path:
+
+验证Gradle是否安装成功
+gradle -v
+
+## 4.4 创建第一个Gradle项目
+![img_1.png](images/img128.png)
+
+![img.png](images/img127.png)
+
+标准项目结构：
+
+![img_3.png](images/img130.png)
+
+![img_2.png](images/img129.png)
+
+![img_4.png](images/img131.png)
+
+![img_5.png](images/img132.png)
+
+项目打包：
+
+![img_6.png](images/img133.png)
+
+执行：
+
+![img_8.png](images/img135.png)
+
+如果出现乱码，在builde.gradle中加入配置：
+
+![img_7.png](images/img134.png)
+
+
+## 4.5build.gradle构建脚本介绍
+Gradle构建脚本中最重要的连个概念是project和Task，任何一个Gradle构建都由一个或多个
+project组成每个project包括许多的构建部分，可以是一个jar包，也可以是一个web应用，也可以是多个jar的
+整合，可以部署应用和搭建环境。
+
+![img_9.png](images/img136.png)
+
+如果有子项目的话：
+
+![img_10.png](images/img137.png)
+
+每个项目对应一个build.gradle构建脚本
+
+
+### 4.5.1 Project
+一个project代表一个正在构建的组件（jar/war文件），当构建开始时，Gradle会基于build.gradle
+实例化一个org.gradle.api.Project对象，并通过project变量来隐式调用其成员。
+
+Projct属性：
+
+![img_11.png](images/img138.png)
+
+将build.gradle配置封装为一个Project对象，对象名字为project，通过project可以隐式调用：使用groovy语法
+
+![img_12.png](images/img139.png)
+
+![img_13.png](images/img140.png)
+
+进行环境变量设置：
+
+首先关闭idea
+
+![img_14.png](images/img141.png)
+
+![img_18.png](images/img145.png)
+
+
+重启IDEA打开，如果需要重新设置maven本地库位置：
+
+![img_15.png](images/img142.png)
+
+如果需要添加依赖，可以从中央仓库查找坐标：
+
+![img_16.png](images/img143.png)
+
+粘贴过来以后，点击刷新：
+
+![img_17.png](images/img144.png)
+
+### 4.5.2 Task
+每个任务在构建执行过程中会被封装成org.gradle.api.Task对象，主要包括任务的动作和任务依赖，任务工作定义了一个原子操作，可以
+定义依赖其他任务，动作的顺序、执行的条件。
+
+任务主要操作**动作**：
+
+dependsOn:依赖相关操作
+
+doFirst:任务执行之前执行的动作
+
+doLast、<<（老版本用，现在放弃了）：任务执行之后的方法
+
+*定义好任务后，默认分配在other分组下：*
+
+![img_21.png](images/img148.png)
+
+*也可以放在自定义分组下：*
+
+![img_22.png](images/img149.png)
+
+*任务的定义方式：(6种定义方式)*
+
+![img_20.png](images/img147.png)
+
+![img_23.png](images/img150.png)
+
+![img_24.png](images/img151.png)
+
+![img_25.png](images/img152.png)
+
+![img_27.png](images/img154.png)
+
+*任务的依赖：*
+
+![img_29.png](images/img156.png)
+
+![img_30.png](images/img157.png)
+
+*任务的执行时机：*
+
+在构建阶段，配置代码是步执行的，在执行阶段，执行动作代码
+
+![img_33.png](images/img160.png)
+
+*定位任务，对某个已有的任务进行扩展：例如对clean内置任务进行扩展：*
+
+![img_34.png](images/img161.png)
+
+
+
+## 4.6 Gradle项目构建生命周期
+Gradle的生命周期分三个阶段：初始阶段、配置阶段、执行阶段。
+
+*初始化阶段*
+
+通过settings.gradle判断 有哪些项目需求初始化，加载所有需要初始化的项目的build.gradle文件并为每个项目创建project对象
+
+*配置阶段*
+
+执行各项目下的build.gradle脚本，完成project的配置，并且构造Task任务依赖关系图以便在执行阶段按照依赖关系执行Task中的配置代码
+
+*执行阶段*
+
+通过配置阶段的Task图，按顺序执行需要执行的任务中的动作代码，就是执行任务中写在doFirst或doLast中的代码。
+
+## 4.7 插件
+### 4.7.1 添加插件、发布和使用自定义jar包
+
+案例：将自己的项目打包成jar包，供给另外的项目使用
+
+（1）新建一个Gradle项目：
+
+![img_35.png](images/img162.png)
+
+（2）配置插件：
+
+![img_36.png](images/img163.png)
+
+（3）然后刷新项目，刷新后任务中多了一个分组：
+
+![img_37.png](images/img164.png)
+
+（4）配置发布分组：在build.gradle中配置
+
+![img_38.png](images/img165.png)
+
+（5）执行任务，发布jar到本地仓库中：
+
+![img_39.png](images/img166.png)
+
+（6）自行去本地库中查找你jar包和生成的配置文件：
+
+![img_41.png](images/img168.png)
+
+（7）在其他项目中使用刚才本地发布的jar包
+
+![img_42.png](images/img169.png)
+
+（8）验证是否可以使用jar中的内容:
+
+![img_43.png](images/img170.png)
+
+### 4.7.2 自定义插件
+（1）在构建脚本中直接编写自定义插件：
+
+![img_44.png](images/img171.png)
+
+但是上面的方法只能在当前脚本中使用，不可以在整个项目中使用，如果要想在整个项目中的所有构建脚本中都使用的话，
+需要将任务单独提取出来放入buildSrc下：
+（2）自己创建buildSrc目录:
+
+![img_45.png](images/img172.png)
+
+注意点：groovy目录创建好后一定要是蓝色的文件夹，如果是灰色的文件夹，需要自己构建build.gradle脚本，
+然后加入插件：
+
+![img_46.png](images/img173.png)
+
+然后定义插件：
+
+![img_47.png](images/img174.png)
+
+定义好以后，就可以在项目的所有build.gradle中使用了：
+
+![img_48.png](images/img175.png)
+
+## 4.8 Gradle版本冲突问题
+*（1）依赖传递性：*
+假设你的项目依赖于一个库，而这个库又依赖于其他库，你不必自己去找出所有这些依赖，你只需要加上
+你直接依赖的库，Gradle会隐式的把这些库间接依赖的库也加入到你的项目中。
+
+![img_49.png](images/img176.png)
+
+*（2）传递性依赖中版本冲突*
+由于传递性依赖的特点，两个不同版本的jar包会被依赖进来，这样就存在版本冲突的问题。
+
+![img_50.png](images/img177.png)
+
+*（3）maven中解决冲突的办法——自动解决方案：*
+【1】第一原则：最短路径优先原则
+“最短路径优先”意味着项目依赖关系树种路径最短的版本会被使用。
+例如，假设A、B、C之间的依赖关系是A->B->C(2.0)和A->E->D(1.0),那么D(1.0)会被使用。因为A通过E到D的路径更短。
+
+【2】第二原则：最先声明原则
+
+![img_51.png](images/img178.png)
+
+*（4）Gradle中解决冲突的办法——自动解决方案：*
+
+![img_52.png](images/img179.png)
+
+![img_53.png](images/img180.png)
+
+
+*（5）Gradle中解决冲突的办法——手动修改依赖：*
+
+**手动排除依赖：**
+
+![img_54.png](images/img181.png)
+
+**修改默认配置策略，对所有jar不做冲突自动解决：**
+
+![img_55.png](images/img182.png)
+
+**手动指定某个jar的版本**
+force强制覆盖某个版本：
+
+![img_56.png](images/img183.png)
+
+![img_57.png](images/img184.png)
+
+## 4.9 多项目构建
+
+![img_58.png](images/img185.png)
+
+案例:
+
+![img_59.png](images/img186.png)
+
+构建：
+
+![img_60.png](images/img187.png)
+
+配置：
+
+配置1：统一插件配置：在根项目中的build.gradle配置
+
+![img_61.png](images/img188.png)
+
+配置2：统一配置公共属性：
+
+![img_63.png](images/img190.png)
+
+配置3：配置项目的依赖关系：在子项目的build.gradle中配置：
+
+![img_64.png](images/img191.png)
+
+![img_65.png](images/img192.png)
+
+验证：
+
+![img_66.png](images/img193.png)
+
+配置4：统一资源库：
+
+![img_67.png](images/img194.png)
+
+配置5：配置公用的依赖：配置在跟项目的build.gradle中：
+
+![img_68.png](images/img195.png)
+
+PS:如果配置在subprojects外面，就只针对根生效，对子项目无效，只有放在subprojects中对所有项目生效。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
