@@ -4,15 +4,20 @@ yum install -y yum-utils device-mapper-persistent-data lvm2
 * yum-utils yum工具集
 * device-mapper-persistent-data 数据存储的驱动包（docker内部数据存储时需要）
 * lvm2  数据存储的驱动包（docker内部数据存储时需要）
+
 2.添加软件源信息
 修改我们的yum源
 yum-config-manager --add-repo  https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo   # yum-config-manager 这个工具就是前边安装yum-utils中的工具，简化我们切换yum源的工具
+
 3.创建缓存并让yum自己决定哪个快用哪个
 yum makecache fast
+
 4.安装docker
 yum -y install docker-ce
+
 5.开启Docker服务
 service docker start
+
 6. 验证
 输入docker version
 通过输出我们可以看到客户端和服务器的版本信息
@@ -75,37 +80,58 @@ https://hub.docker.com/
 # Docker快速部署Tomcat运行
 1.拉取tomcat镜像
 docker pull tomcat   #不指定版本拉取的就是latest(也不是最新，是下载使用最多的版本)
+
 2.查看本地镜像有哪些
 docker images
+
 3.安装指定版本的镜像
 docker pull tomcat:8.5.46-jdk8-openjdk  #8.5.46-jdk8-openjdk就是具体的版本号，版本号可以登录到docker镜像仓库中查找
+
 4.创建容器
 docker run tomcat
+
 此时就在当前控制台打印了启动日志，但是此时有一个问题。
+
 Docker宿主机与容器怎么通信？解决方案就是端口映射。写法如下：
+
 docker run -p 8000:8080 tomcat  #8000是宿主机开放的端口 8080是容器中tomcat启动时的端口
+
 此时通过浏览器访问ip:8000即可访问tomcat
+
 通过以下命令查看端口号
+
 netstat -tulpn
+
 上述启动的容器是前端运行的，我们需要后台运行
+
 docker run -p 8000:8080 -d tomcat #-d表示后台运行
+
 运行后会返回一个长串
 
 5.停止容器
+
 docker ps   #列出当前运行的镜像容器
+
 docker stop 容器编号
+
 docker rm 容器编号
+
 或者
+
 docker rm -f 容器编号
 
 6.移除镜像
+
 docker rmi 镜像名<:tags>
+
 或者
+
 docker rmi -f 镜像名<:tags>
 
 
 # 容器内部结构
 tomcat容器内部结构
+
 ![tomcat容器内部结构](images\tomcat容器内部结构.png)
 
 ## 在容器内部执行命令
@@ -196,7 +222,7 @@ CONTAINER ID   IMAGE                        COMMAND             CREATED        S
 ![Dockerfile自动部署tomcat应用](images\Dockerfile自动部署tomcat应用.jpg)
 
 ##演示
-* 创建目录first-dockerfile/docker-web
+* 创建目录/usr/images/first-dockerfile/docker-web
 * 在之前的目录下创建index.html文件，在文件中书写一些信息
 ```html
 <h1>我是Docker应用首页</h1>
@@ -210,10 +236,15 @@ WORKDIR /usr/local/tomcat/webapps
 ADD docker-web ./docker-web
 ```
 解释：
+
 第一行FROM表示基准镜像，表明我们当前的自定义的镜像以那个镜像为基准镜像来进行构建
+
 第二行 MAINTAINER表示我们当前的自定义镜像的拥有者是谁
+
 第三行WORKDIR就是tomcat基准镜像中的工作目录，也就是切换工作目录。如果不存在会自动创建
+
 第四行ADD表示添加第一个目录到工作目录 也就是把Dockerfile当前所在目录中的docker-web目录下的所有文件拷贝到工作目录
+
 usr/local/tomcat/webapps下的docker-web目录中，如果不存在则自动创建目录
 * 将first-dockerfile上传到虚拟机中，比如/usr/images下
 * 使用docker build -t 机构/镜像名<:tags> Dockerfile进行构建
@@ -230,10 +261,14 @@ http://xxx:8001/docker-web/index.html
 
 ## mywebapp执行过程
 ![mywebapp执行过程](images\mywebapp执行过程.jpg)
+
 分成四步执行，
+
 第一步是拉取tomcat的镜像并且用这个镜像创建一个临时容器，这个容器只能用于构建镜像，
    那串数字就是临时容器的id
+
 第二步就是又有一个容器id，这个容器id就是当前docker对我们的容器进行的一个快照，这个快照就是以临时容器来体现的，
+
 每执行一步都会对当前系统的环境做一个快照
 
 这个构建过程就体现了docker的两个特点
@@ -293,6 +328,7 @@ docker build -t xxx.com/docker_layer:1.1 .
 * ENTRYPOINT: 在容器启动时执行命令
 * CMD:容器启动后执行默认的命令或参数
 本质区别是执行时机不同
+  
 ![执行时机不同](images\执行时机不同.jpg)  
 
 RUN-构建运行
@@ -300,9 +336,11 @@ RUN-构建运行
 * RUN ["yum","install","-y","vim"] #Exec命令
 
 Shell运行方式
+
 ![Shell运行方式](images\Shell运行方式.jpg)
 
 Exec运行方式
+
 ![Exec运行方式](images\Exec运行方式.jpg)
 
 ENTRYPOINT启动命令
@@ -320,6 +358,7 @@ CMD默认命令
   
 ## 演示
 1.进入/usr/image,创建目录docker_run,并在其中创建Dockerfile
+
 2.文件内容如下
 ```dockerfile
 FROM centos
@@ -327,39 +366,64 @@ RUN ["echo","image building!!!"]
 CMD ["echo","container starting..."]
 ```
 保存
+
 3.构建镜像
+
 docker build -t xxx.com/docker_run .
+
 4.观察输出
+
 发现输出了image building!!!
+
 5.运行容器
+
 docker run xxx.com/docker_run
+
 发现输出了container starting...
+
 6.CMD会被忽略是什么意思，见如下命令
+
 docker run xxx.com/docker_run ls
+
 此时发现会列出ls命令的结果，但是没有了这个container starting...输出，忽略就是如果额外加入了命令则CMD就会被忽略
+
 7.重新编辑Dockerfile
+
 ```dockerfile
 FROM centos
 RUN ["echo","image building!!!"]
 ENTRYPOINT ["echo","container starting..."]
 ```
+
 8.重新构建，创建容器
+
 构建时输出了image building!!!
+
 容器运行时输出了container starting...
+
 这么看单独使用ENTRYPOINT时和CMD是没有什么区别
+
 9.重新编辑Dockerfile
+
 ```dockerfile
 FROM centos
 RUN ["echo","image building!!!"]
 ENTRYPOINT ["ps"]
 CMD ["-ef"]
 ```
+
 如果在Dockerfile中上边写ENTRYPOINT,下边写CMD的时候这两部分会联合起来
+
 10.重新构建运行
+
 发现会输出ps -ef的命令
+
 这么做的好处是CMD可以接外部命令，比如以下命令
+
 docker run xxx.com/docker_run -aux
+
 执行后就会忽略Dockerfile中CMD的-ef，从而执行
+
 ps -aux命令了
 
 总结
@@ -388,27 +452,37 @@ EXPOSE 7000
 CMD ["redis-server","redis-7000.conf"]
 ```
 3.镜像构建
+
 docker build -t zhuwei.com/docker-redis .
 
 4.观察本地镜像仓库
+
 docker images
 
 5.创建容器
+
 docker run -p 7000:7000 zhuwei.com/docker-redis
+
 观察输出
+
 6.重新开一个窗口观察7000端口是否已经被侦听
 netstat -tunlp
+
 7.进入容器观察
+
 docker ps
 docker exec -it xxx /bin/bash
+
 观察输出
 
 
 
 # 容器间Link单向通信
 ![容器间Link单向通信](images\容器间Link单向通信.jpg)
+
 创建容器后内部会有一个虚拟ip，外界无法访问，仅仅是容器内部沟通的标识
 但通过虚拟ip通信局限性很大，因为随便创建一个容器ip就会改变
+
 ![容器ip改变后](images\容器ip改变后.jpg)
 这样就导致原本写好的虚拟ip地址需要随时改变，那有什么好的办法嘛？
 其实我们可以给每个容器起一个名称，用名称连接即可。
@@ -416,12 +490,16 @@ docker exec -it xxx /bin/bash
 ## 演示
 
 docker run -d --name web tomcat:latest #--name就是命名容器的参数
+
 docker run -d --name database -it centos /bin/bash #为什么要加-it和/bin/bash呢，因为centos容器创建完后默认会自动退出
       如果想要保持运行状态就要加-it进入交互模式并且进入/bin/bash并在后台运行
 
 怎么看容器的虚拟ip？
+
 docker inspect 容器id
+
 会显示容器的原始数据信息
+
 其中IPAddress就是虚拟IP
 ```shell
 [root@localhost ~]# docker ps 
@@ -563,11 +641,13 @@ rtt min/avg/max/mdev = 0.059/0.198/0.293/0.085 ms
 
 ## 网桥实现原理
 ![网桥实现原理](images\网桥实现原理.jpg)
-在创建网桥后，都会在宿主机上按照一个虚拟网卡，这个虚拟网卡也承担了一个网关的作用。
+
+在创建网桥后，都会在宿主机上安装一个虚拟网卡，这个虚拟网卡也承担了一个网关的作用。
 虚拟网卡ip都是虚拟的，如果和外界通信需要和物理网卡进行地址转换
 
 # Volume容器间共享数据
 为什么需要数据共享？
+
 ![为什么需要数据共享](images\数据共享.jpg)
 如果所示，两个tomcat容器中是有相同的web页面，如果要更新某个web页面时，需要更新这两个容器，如果容器比较多，那么更新就比较麻烦，为此提出了数据共享的方案
 ![数据共享方案](images\数据共享2.pg.jpg)
@@ -645,18 +725,20 @@ docke run -p 8003:8080 --volumes-from webpage --name t4 -d tomcat:
 # Docker Compose
 容器编排工具
 ![容器编排工具](images\容器编排工具.jpg)
+
 哪么什么是容器编排工具呢?我们看一个场景
 ![多容器部署的麻烦事](images\多容器部署的麻烦事.jpg)
+
 图中的方框中是一台宿主机，如果按照原始容器来做，我们需要部署三个容器，分别是nginx、tomcat以及mysql。
 nginx对tomcat提供负载均衡以及反向代理服务，tomcat里面按照java web服务，而服务里面需要访问底层的mysql数据，这些都是需要互联互通.
 同时每个容器都有属于自己独立的配置文件，如果现在有一个应用要上线，难道要给运维提供一推命令和文件嘛，显然这些不现实的
 此时Docker Compose就给我们解决了这个问题。
-Docker Compse通过解析一个的脚本自动化的帮我们先安排mysql容器，然后后tomcat容器，最后按照nginx容器，同时彼此形成一个依赖关系，
+Docker Compose通过解析一个的脚本自动化的帮我们先安装mysql容器，然后tomcat容器，最后安装nginx容器，同时彼此形成一个依赖关系，
 而过程中每个容器所需要的配置文件都可以相应的绑定，而这一切都只需要一个脚本即可。
 先部署哪个在部署哪个，这样整体的过程我们就称为容器编排。 
 
 * Docker Compose单机多容器部署工具
-  如果要使用集群环境对很多台宿主机进行部署就需要使用Docker xx 或者 Kbxx来解决集群部署问题
+  如果要使用集群环境对很多台宿主机进行部署就需要使用Docker swarm 或者 Kubernetes来解决集群部署问题
 * 通过yml文件定义多容器如何部署
 * WIN/MAC默认提供Docker Compose,Linux需安装
 
@@ -723,14 +805,21 @@ docker ps
 
 #Docker-compose应用实战
 1.准备操作素材
+
 创建目录
+
 bsbdj/bsbdj-app
+
 bsbdj/bsbdj-db
+
 在bsbdj-db中有一个文件init-db.sql,初始化数据的脚本
+
 在bsbdj-app内容如下
 
 bsbdj.jar采用springboot开发
+
 2.准备对我们的app和db做镜像
+
 将前边的bsbdj目录上传到宿主机/usr/image下
 ```shell
 cd /usr/image/bsbdj-app
@@ -811,19 +900,29 @@ services:
 
 ```
 version表示告诉docker-compose解析时使用3.3解析规则，不同版本方法有稍微不同
+
 services用于描述一个一个容器及相关信息
+
 db表示服务名，指定即将创建容器的作用的服务名，用于docker-compose创建容器以及网络主机名
+
 build构建镜像
+
 restart重启的意思，只要发现容器宕机了就会重启一个
+
 MYSQL_ROOT_PASSWORD 初始化mysql的root密码
+
 至此db的配置就完了
+
 总结：docker-compose在进行容器编排时，首先会对db这个目录进行镜像创建，在创建容器，如果容器出现了宕机会自动重启
+
 开始app配置
+
 depends_on表示依赖，其中db就表示上边的db,只要有这个依赖关系，那么docker就会为这两个容器设置互联互通，它们在网络层面通过服务名就可以互相通信
-这个前边用网桥创建的情形类似，只不过现在变成了depen_on
+这个前边用网桥创建的情形类似，只不过现在变成了depends_on
 ports之前app内部暴漏的是80，在宿主机上要有一个与之对应那么就是在这个设置的。前边80是宿主机的端口，后边的是容器内部暴漏的端口
 单引号和双引号对yml来说是兼容的，没有问题
 要根据依赖的关系在yml来顺序进行配置
+
 10.对配置文件进行编译执行
 ```shell
 docker-compose up
@@ -858,7 +957,7 @@ docker ps
 浏览器进行验证
 
 实际场景中直接使用docker-compose还是比较少的，原因就在于docker-compose只支持单击容器编排部署
-如果在大集群就需要docker xx 或者k8s
+如果在大集群就需要docker swarm 或者k8s(Kubernetes)
 
   
 

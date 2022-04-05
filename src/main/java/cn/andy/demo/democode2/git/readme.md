@@ -9,6 +9,19 @@ $ git revert HEAD
 $ git revert [倒数第一个提交] [倒数第二个提交]
 ```
 
+
+如果撤销的提交是一个merge commit，此时在执行命令时会有些不一样。命令如下
+git revert -m 1|2 parentCommitId
+
+merge commit 包含两个 parent commit，代表该 merge commit 是从哪两个 commit 合并过来的。parentCommitId标识的就是“主线”，主线的内容将会保留。
+通过以下命令可以查看merge commit代表的parent commit信息
+git show mergeCommitId
+
+-m 选项接收的参数是一个数字，数字取值为 1 和 2，也就是 Merge 行里面列出来的第一个还是第二个。
+
+
+
+
 **git revert** 命令还有两个参数
 * **--no-edit** ： 执行时不打开默认编辑器，直接使用 Git 自动生成的提交信息。
 * **--no-commit** ：只抵消暂存区和工作区的文件变化，不产生新的提交。
@@ -24,6 +37,20 @@ git reset [last good SHA]
 git reset --hard [last good SHA]
 ```
 执行 **git reset** 命令之后，如果想找回那些丢弃掉的提交，可以使用 git reflog 命令，具体做法参考这里。不过，这种做法有时效性，时间长了可能找不回来。
+
+
+如果是已经推送到远端的commit，则还需要进行远程仓库强制更新
+
+```text
+git push \-f
+```
+
+需要注意的是：
+如果回滚的commit是已经推送到远端的，则在idea日志显示的时候，此时commitId的信息不会被删除，只是HEAD会被移动到回滚点的commitId，
+如果是还没有推送到远端的commitId，日志显示的信息会被删除，不会显示出来
+
+
+
 
 
 #替换上一次的提交
@@ -50,12 +77,24 @@ git checkout -- [filename]
 注意，工作区的文件变化一旦被撤销，就无法找回了。
 ```
 
+还可以使用以下命令
+```text
+git restore file
+```
+
+
+
 # 从暂存区撤销文件
 如果不小心把一个文件添加到暂存区，可以用下面的命令撤销
 ```text
 git rm --cached [filename]
 ```
 上面的命令不影响已经提交的内容。
+这个命令会把当前暂存区的文件删除，使其变成一个未被git管理的文件状态
+，如果仅仅是让文件从暂存区撤出可以使用以下命令
+```text
+git restore --staged [filename]
+```
 
 # 撤销当前分支的变化
 
