@@ -374,6 +374,21 @@ docker-compose logs -f jenkins
 
 由于Jenkins需要从Git拉取代码、需要本地构建、甚至需要直接发布自定义镜像到Docker仓库，所以Jenkins需要配置大量内容。
 
+1.配置jenkins中的jdk和maven
+
+把之前在usr/local中的jdk和maven目录按照软链接的方式在jenkins的数据卷中进行创建
+jenkins数据卷：/usr/local/docker/jenkins_docker/data
+对应jenkins的目录是/var/jenkins_home
+在jenkins的Global Tool Configuration菜单中进行maven和jdk配置
+jdk:/var/jenkins_home/jdk1.8
+maven:/var/jenkins_home/maven3.8
+
+2.配置publish over ssh
+此配置是告诉jenkins怎么连接远程的服务器，连接的方式 有很多 包括公钥私钥以及用户名和密码
+在Configure System系统菜单中进行配置
+SSH Server中进行配置
+
+
 ##### 5.3.1 构建任务
 
 准备好GitLab仓库中的项目，并且通过Jenkins配置项目的实现当前项目的[DevOps]()基本流程。
@@ -538,6 +553,11 @@ jar包构建好之后，就可以根据情况发布到测试或生产环境，�
   |               构建后发布并执行脚本命令               |
   | :--------------------------------------: |
   | ![image-20211126161408514](Pictures/image-20211126161408514.png) |
+
+如果同一版本的镜像构建多次时执行docker images时会发现有很多none的东西
+此时我们执行docker image prune -f就会把为none的镜像删除
+
+
 
 - 发布到GitLab后由Jenkins立即构建并托送到目标服务器
 
@@ -784,6 +804,10 @@ Sonar Qube的使用方式很多，Maven可以整合，也可以采用sonar-scann
   ~/sonar-scanner/bin/sonar-scanner -Dsonar.sources=./ -Dsonar.projectname=demo -Dsonar.projectKey=java -Dsonar.java.binaries=target/
   ```
 
+如果报错提示
+. Please provide a user token in sonar.login or other credentials in sonar.login and sonar.password.
+我们这边就在192.168.80.103机器上的sonarqube中生成一个token
+
   [Ps：主要查看我的sonar-scanner执行命令的位置]()
 
   |                  查看日志信息                  |
@@ -808,6 +832,8 @@ Jenkins继承Sonar Qube实现代码扫描需要先下载整合插件
 | ![image-20211129201607240](Pictures/image-20211129201607240.png) |
 | ![image-20211129202147390](Pictures/image-20211129202147390.png) |
 
+可以直接在访问路径中访问http://192.168.80.103:8080/restart
+来进行重启
 ##### 7.4.2 Jenkins配置Sonar Qube
 
 - 开启Sonar Qube权限验证
@@ -959,6 +985,17 @@ Harbor作为镜像仓库，主要的交互方式就是将镜像上传到Harbor�
   |         修改daemon.json，支持Docker仓库         |
   | :--------------------------------------: |
   | ![image-20211201215931237](Pictures/image-20211201215931237.png) |
+
+追加镜像的名称
+docker tag 71644409a712 192.168.80.103:80/resp/mytest:v2.0.0
+
+此时会给镜像71644409a712追加一个名字，名字是192.168.80.103:80/resp/mytest
+
+
+
+
+
+
 
 - 设置登录仓库信息
 
