@@ -19,6 +19,5 @@ public class TimeTests {
         LocalTime lt = LocalTime.now();
         System.out.println(lt);
 
-
     }
 }

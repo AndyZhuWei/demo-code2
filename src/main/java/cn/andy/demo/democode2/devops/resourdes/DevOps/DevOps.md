@@ -370,6 +370,9 @@ docker-compose logs -f jenkins
   | ![image-20211124211720836](Pictures/image-20211124211720836.png) |
 
 
+
+
+
 #### 5.3 Jenkins入门配置
 
 由于Jenkins需要从Git拉取代码、需要本地构建、甚至需要直接发布自定义镜像到Docker仓库，所以Jenkins需要配置大量内容。
